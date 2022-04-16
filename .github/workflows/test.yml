@@ -1,0 +1,27 @@
+name: tests
+on: [push]
+jobs:
+
+  build:
+    name: building and testing
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-10.15, ubuntu-20.04, windows-2019]
+        go: ["1.18"]
+
+    steps:
+
+    - name: set up Go ${{ matrix.go }}
+      uses: actions/setup-go@v1
+      with:
+        go-version: ${{ matrix.go }}
+      id: go
+
+    - name: checkout code
+      uses: actions/checkout@v1
+
+    - name: test
+      run: go test ./...
